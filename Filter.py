@@ -6,6 +6,8 @@ def Filter(text,name,RenderArray):
     ObjectsArray = [['Nombre emisor:','Folio:','RFC receptor:','Nombre receptor:','Código postal del\nreceptor:','Régimen fiscal\nreceptor:','Uso CFDI:',
     'No. de serie del CSD:','Serie:','Código postal, fecha y hora de\nemisión:','Efecto de comprobante:','Régimen fiscal:','Exportación:','Conceptos'], ['Moneda:','Forma de pago:','Método de pago:','Subtotal','\nDescuento ','Impuestos trasladados IVA','Total','Sello digital del CFDI:']]
 
+
+    ObjectsArray2 = [['basio','bosio']]
     FilterArray = []
     FilterArray.append(['Nombre del archivo',name.split('/')[1].split('.')[0]])
 
