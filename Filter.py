@@ -1,4 +1,3 @@
-
 import re
 
 
@@ -7,34 +6,48 @@ def Filter(text,name,RenderArray):
     'No. de serie del CSD:','Serie:','Código postal, fecha y hora de\nemisión:','Efecto de comprobante:','Régimen fiscal:','Exportación:','Conceptos'], ['Moneda:','Forma de pago:','Método de pago:','Subtotal','\nDescuento ','Impuestos trasladados IVA','Total','Sello digital del CFDI:']]
 
 
-    ObjectsArray2 = [['basio','bosio']]
+    ObjectsArray2 = [['Nombre emisor:','Folio:','RFC receptor:','Nombre receptor:','Código postal del\nreceptor:', 'Régimen fiscal\nreceptor:','Uso CFDI:','Folio fiscal:','No. de serie del CSD:','Serie:','Código postal, fecha y hora de\nemisión:','Efecto de comprobante:','Régimen fiscal:','Exportación:','Conceptos'],['Moneda:','Forma de pago:','Método de pago:','Subtotal','Impuestos trasladados IVA','Total','Sello digital del CFDI:']]
+
+
+    SuperArray = [ObjectsArray,ObjectsArray2,'']
+
     FilterArray = []
     FilterArray.append(['Nombre del archivo',name.split('/')[1].split('.')[0]])
 
-    for ItemArray in ObjectsArray:
-        for i in range(len(ItemArray)):
-            ItemArrayEnd = ItemArray[1:]
-            ItemArrayEnd.append('')
-            Item = ItemArray[i]
-            ItemEnd = ItemArrayEnd[i]
 
-            RegularExprecion = rf'{Item}([\s\S]*?)\s*{ItemEnd}'
-            RegualarValue = re.search(RegularExprecion, text)
+    # ReadArray = ObjectsArray
+    Count = 0
+    while True:
+        for ItemArray in ObjectsArray:
+            for i in range(len(ItemArray)):
+                ItemArrayEnd = ItemArray[1:]
+                ItemArrayEnd.append('')
+                Item = ItemArray[i]
+                ItemEnd = ItemArrayEnd[i]
 
-            if RegualarValue:
-                
+                RegularExprecion = rf'{Item}([\s\S]*?)\s*{ItemEnd}'
+                RegualarValue = re.search(RegularExprecion, text)
 
+                if RegualarValue:
+                    FilterArray.append([Item.replace('\n'," "), RegualarValue.group(1)])
+                else:
+                    if Count > 1:
+                        FilterArray.append([Item.replace('\n'," "), 'No se pudo'])
+                    else:
+                        Count += 1
+                        break
 
-                FilterArray.append([Item.replace('\n'," "), RegualarValue.group(1)])
-            else:
-                FilterArray.append([Item,'NO SE PUDO EXTRAER CORRECTAMENTE'])
+            
+            FilterArray.pop()
+            ObjectsArray = SuperArray[Count]
+            continue
 
+        break
 
-        FilterArray.pop()
 
     return FilterArray
-    # print(FilterArray)
-    # print("fieuiu\n\n")
+#     # print(FilterArray)
+#     # print("fieuiu\n\n")
 
 
             
